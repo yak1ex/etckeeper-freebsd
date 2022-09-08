@@ -1,11 +1,11 @@
-etckeeper (1.18.18) UNRELEASED; urgency=medium
+etckeeper (1.18.18) upstream; urgency=medium
 
   * Replace deprecated egrep with grep -E.
     Thanks, Sam James
   * Added support for Void Linux's xbps package manager.
     Thanks, Zev Weiss.
 
- -- Joey Hess <id@joeyh.name>  Wed, 18 May 2022 12:50:08 -0400
+ -- Joey Hess <id@joeyh.name>  Thu, 08 Sep 2022 12:12:46 -0400
 
 etckeeper (1.18.17) upstream; urgency=medium
 
