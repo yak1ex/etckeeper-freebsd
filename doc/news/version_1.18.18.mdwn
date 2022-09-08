@@ -1,0 +1,5 @@
+etckeeper 1.18.18 released with [[!toggle text="these changes"]]
+[[!toggleable text="""  * Replace deprecated egrep with grep -E.
+    Thanks, Sam James
+  * Added support for Void Linux's xbps package manager.
+    Thanks, Zev Weiss."""]]
