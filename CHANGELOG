@@ -1,3 +1,10 @@
+etckeeper (1.18.19) UNRELEASED; urgency=medium
+
+  * Added support for Gentoo (emerge, qlist, and cave)
+    Thanks, Sam James
+
+ -- Joey Hess <id@joeyh.name>  Tue, 04 Oct 2022 12:35:28 -0400
+
 etckeeper (1.18.18) upstream; urgency=medium
 
   * Replace deprecated egrep with grep -E.
