@@ -30,5 +30,9 @@ else
 		apk info -v | sort
 	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = xbps ]; then
 		xbps-query -l | awk '{print $2}' | sed -r 's/-([^-]+)$/ \1/g;'
+	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = qlist ]; then
+		qlist -ICv
+	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = cave ]; then
+		cave print-packages -r installed
 	fi
 fi

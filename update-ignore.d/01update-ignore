@@ -107,8 +107,12 @@ writefile () {
 		comment "new versions of conffiles, stored by xbps"
 		ignore "*.new-*_[0-9]*"
 		nl
+	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = "qlist" -o "$LOWLEVEL_PACKAGE_MANAGER" = "cave" ]; then
+		comment "new and old versions of conffiles, stored by emerge"
+		ignore "._cfg*"
+		nl
 	fi
-	
+
 	comment "old versions of files"
 	ignore "*.old"
 	# Not currently ignored as admins tend to rely on these files.
