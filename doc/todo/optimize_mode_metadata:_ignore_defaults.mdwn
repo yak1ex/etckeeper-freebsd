@@ -30,4 +30,22 @@ root@marcos:/etc# git diff --cached --stat
 
 yes, you read that right, that's 10 *thousand* files cleaned up. and yes, it seems like i have over 20,000 files in /etc. yikes. (it's mostly because this is a puppet server and there's lots of git repos under there, and cache files. and yes, those are in the .gitignore and shouldn't even be in the `.etckeeper` file in the first place, but that's a different story, see [[todo/metadata_ignore_filters_do_not_work]].
 
+before this and the git ignore patch:
+
+[[!format txt """
+root@marcos:/etc# VCS=git time sh  /home/anarcat/src/etckeeper/pre-commit.d/30store-metadata
+0.22user 0.13system 0:00.34elapsed 104%CPU (0avgtext+0avgdata 11500maxresident)k
+0inputs+12088outputs (0major+4497minor)pagefaults 0swaps
+"""]]
+
+after:
+
+[[!format txt """
+root@marcos:/etc# VCS=git  time sh /etc/etckeeper/pre-commit.d/30store-metadata
+0.07user 0.02system 0:00.09elapsed 106%CPU (0avgtext+0avgdata 7748maxresident)k
+0inputs+2080outputs (0major+3287minor)pagefaults 0swaps
+"""]]
+
+it doesn't look like much, but that's a 10-fold improvement. and it doesn't count the time it takes to actually do the commit, which I haven't benchmarked, but it takes a few *seconds* to commit before the change, and a few miliseconds after.
+
 so anyways, i figured that would be a worthwhile optimisation! :) --[[anarcat]]
