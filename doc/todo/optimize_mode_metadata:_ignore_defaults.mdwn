@@ -18,7 +18,7 @@ modified   pre-commit.d/30store-metadata
 
 """]]
 
-See also [this commit](https://salsa.debian.org/debian/etckeeper/-/commit/73fccbde9c30156209362d74811e04dd12de9106) which is the current HEAD of [my optimize-default-metadata branch](https://salsa.debian.org/debian/etckeeper/-/tree/optimize-default-metadata).
+See also [this commit](https://salsa.debian.org/debian/etckeeper/-/commit/73fccbde9c30156209362d74811e04dd12de9106) which is the current HEAD of [my optimize-default-metadata branch](https://salsa.debian.org/debian/etckeeper/-/commits/optimize-default-metadata).
 
 In my messy home server, this gives me that resulting diff:
 
