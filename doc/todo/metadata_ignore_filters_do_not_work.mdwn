@@ -27,7 +27,7 @@ I think the pseudocode then would be something like, for the git case:
 
 -- [[anarcat]]
 
-Update: and I think the patch is [something like this](https://salsa.debian.org/debian/etckeeper/-/commit/0a4305886c6e9501eec223880fa9ae8776b4947e). it doesn't *quite* work the way I expected, unfortunately. a few examples:
+Update: and I think the patch is [something like this](https://salsa.debian.org/debian/etckeeper/-/commit/0a4305886c6e9501eec223880fa9ae8776b4947e) (see [branch](https://salsa.debian.org/debian/etckeeper/-/commits/new-git-ignores) for latest. it doesn't *quite* work the way I expected, unfortunately. a few examples:
 
 [[!format diff """
 diff --git a/.etckeeper b/.etckeeper
