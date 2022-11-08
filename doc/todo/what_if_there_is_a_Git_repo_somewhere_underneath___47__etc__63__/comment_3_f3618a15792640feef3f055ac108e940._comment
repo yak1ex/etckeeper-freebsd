@@ -1,0 +1,8 @@
+[[!comment format=mdwn
+ username="anarcat"
+ avatar="http://cdn.libravatar.org/avatar/1bb99a4f017a1d253ad5790c150d0f0b"
+ subject="comment 3"
+ date="2022-11-08T17:25:58Z"
+ content="""
+i think the proper solution here is to stop trying to replace gitignore with our own implementation and defer everything to `git-ls-files`. i lay out that idea in [[todo/metadata_ignore_filters_do_not_work]] and would very much welcome feedback on that.
+"""]]
