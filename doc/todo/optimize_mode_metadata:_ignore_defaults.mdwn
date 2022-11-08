@@ -1,0 +1,31 @@
+here's another idea: why do we store metadata for files that have "default" modes (as understood by git) like `0755` (for directories) or `0644` (for files)? This seems like a huge waste of time and something that grows the `.etckeeper` metadata file needlessly.
+
+I believe the following patch would improve things quite a bit:
+
+[[!format diff """
+modified   pre-commit.d/30store-metadata
+@@ -92,7 +92,9 @@ maybe_chmod_chown() {
+ 			if ($gid != $)) {
+ 				printf "maybe chgrp $q%s$q %s\n", gidname($gid), $_;
+ 			}
+-			printf "maybe chmod %04o %s\n", $mode & 07777, $_;
++			if ($mode != 0100644 and $mode != 040755) {
++				printf "maybe chmod %04o %s\n", $mode & 07777, $_;
++			}
+ 		'
+ 		return $?
+ 	else
+
+"""]]
+
+In my messy home server, this gives me that resulting diff:
+
+[[!format txt """
+root@marcos:/etc# git diff --cached --stat
+ .etckeeper | 10231 --------------------------------------------------------------------------------------------------------------------------------------------------
+ 1 file changed, 10231 deletions(-)
+"""]]
+
+yes, you read that right, that's 10 *thousand* files cleaned up. and yes, it seems like i have over 20,000 files in /etc. yikes. (it's mostly because this is a puppet server and there's lots of git repos under there, and cache files. and yes, those are in the .gitignore and shouldn't even be in the `.etckeeper` file in the first place, but that's a different story, see [[todo/metadata_ignore_filters_do_not_work]].
+
+so anyways, i figured that would be a worthwhile optimisation! :) --[[anarcat]]
