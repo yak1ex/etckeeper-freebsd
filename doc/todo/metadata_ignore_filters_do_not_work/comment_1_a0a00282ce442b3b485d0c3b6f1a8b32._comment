@@ -1,0 +1,16 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 1"""
+ date="2022-11-08T18:11:53Z"
+ content="""
+You have misunderstood (and oddly, misquoted) the code.
+
+30store-metadata already uses `git ls-files -oi --exclude-standard` to list
+gitignored files. The use of grep is only to search through the resulting
+list of ignored files, to find an exact match for a filename.. That is
+indeed inefficient when there are a lot of ignored files. But it matches
+ignored files correctly.
+
+(30store-metadata does grep .darcsignore, I don't know if that is a good
+idea.)
+"""]]
