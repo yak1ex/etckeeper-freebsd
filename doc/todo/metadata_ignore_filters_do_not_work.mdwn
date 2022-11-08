@@ -1,0 +1,28 @@
+I'm seeing numerous performance problems with etckeeper on my servers. It generally happens when there is a git repository underneath `/etc` or some other thing that generates lots of small files. Typically, what I try next is to make git ignore those files, which works for the git side of things, but not for the etckeeper side of things, as all those files still get listed (and parsed) by etckeeper's `.etckeeper` metadata file.
+
+The problem here is the metadata "ignore" filter doesn't really work. We can see this in multiple different bug reports here, like [[todo/etkeeper_warning_about_hardlinks_doesn__39__t_exclude_ignored_files]], [[todo/Do_not_recreate_ignored_empty_directory]], or [[todo/what_if_there_is_a_Git_repo_somewhere_underneath___47__etc__63__/]]. I think the approach taken to solve this problem is incorrect, which is why I am opening this issue to regroup all of them in one single place.
+
+From what I can tell, the `30store-metadata` script tries to ignore files ignored by git. But it tries to do that using `grep`, and git ignore files are not `grep` patterns at all. In fact, they're not even regular expressions, they are like glob patterns, but with many different exceptions (like `!` to negate a pattern, for example). I do not think there is a command that can faithfully reproduce this outside of git itself.
+
+Right now, we basically do this:
+
+ 1. list all empty directories, and add them to the metadata, regardless of gitignore (which is [[todo/Do_not_recreate_ignored_empty_directory]])
+ 2. then list all files and directories (empty or not), try to filter out ignored files, and try to ignore normal modes, which means:
+    1. `find $NOVCS \( -type f -or -type d \)` (basically skips `.git` and friends)
+    2. `sed 's/^\.\///' | grep -xFvf $(git ls-files -oi --exclude-standard; git ls-files -oi --exclude-standard --directory | sort -u)`
+    3. some inline perl script which actually systematically chmods all files, and optionally changes the owner and group if they are not the EUID/EGID
+
+Now, the problem that concerns us here is mostly in step 2.2 above. That `grep` command is bad for many reasons, but the first of which is `-x`: that will do a full match on the entire line so if you have, say, `puppet` in your `.gitignore` that will match the `puppet` directory, but nothing *underneath*, which is not how gitignore files work *at all*.
+
+I think the proper way to do this is to actually start from files git actually tracks, since in that step, we're trying to keep track of modes and owners of actual files managed by git. It seems to me much better to make git list the files, then process *that*, than try to reimplement git-ignore outside of git.
+
+I think the pseudocode then would be something like, for the git case:
+
+ 1. `git ls-files | sort -u | maybe_chmod_chown`
+ 2. `git ls-files --others --exclude-standard --directory | sed -e "s/^/mkdir -p /"`
+
+... and that's it! The trick here is we separate the normal file tracking (first step) from the empty directory listing (second step). I haven't actually tested this because I'm out of battery in that third yak razor, but I wanted to brainstorm this here first to see if we could somehow make sense of this.
+
+(Also, I don't think that the `maybe_chmod_chown` script should systematically change the mode on files, but that's a different story (and optimization)...)
+
+-- [[anarcat]]
