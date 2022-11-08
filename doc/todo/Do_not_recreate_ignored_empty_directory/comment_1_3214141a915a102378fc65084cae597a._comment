@@ -1,0 +1,10 @@
+[[!comment format=mdwn
+ username="anarcat"
+ avatar="http://cdn.libravatar.org/avatar/1bb99a4f017a1d253ad5790c150d0f0b"
+ subject="comment 1"
+ date="2022-11-08T17:27:31Z"
+ content="""
+i'm not sure that's the right way. i think you're right in that `grep -x` doesn't do the right thing, but I'm not sure I understand what you're trying to do with that extra `sed 's-^///--'` pattern there...
+
+I have proposed another solution which you might be interested in, in [[todo/metadata_ignore_filters_do_not_work]], which is basically to stop trying to reimplement git-ignore ourselves...
+"""]]
