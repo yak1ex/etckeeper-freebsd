@@ -1,0 +1,18 @@
+[[!comment format=mdwn
+ username="anarcat"
+ avatar="http://cdn.libravatar.org/avatar/1bb99a4f017a1d253ad5790c150d0f0b"
+ subject="comment 2"
+ date="2022-11-15T17:49:48Z"
+ content="""
+> You have misunderstood (and oddly, misquoted) the code.
+>
+> 30store-metadata already uses git ls-files -oi --exclude-standard to list gitignored files. The use of grep is only to search through the resulting list of ignored files, to find an exact match for a filename.. That is indeed inefficient when there are a lot of ignored files. But it matches ignored files correctly.
+
+But why do we list *all* the ignored files in the metadata store? Shouldn't we store data only about files tracked with git?
+
+Maybe you are correct and I do not understand the purpose of this code, I thought the point of the metadata store was to restore modes when checking out files, and therefore that adding ignored files in there was not necessary.
+
+> (30store-metadata does grep .darcsignore, I don't know if that is a good idea.)
+
+that, i cannot say. i haven't used darcs in ages.
+"""]]
