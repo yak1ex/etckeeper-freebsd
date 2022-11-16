@@ -1,0 +1,26 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 3"""
+ date="2022-11-16T17:15:50Z"
+ content="""
+> But why do we list _all_ the ignored files in the metadata store?
+
+It doesn't. This code is what filters those ignored files out of the ones
+that are included. It's easy to show it works:
+
+	root@darkstar:~>grep mtab /etc/.gitignore
+	mtab
+	mtab.fuselock
+	root@darkstar:~>ls /etc/mtab
+	/etc/mtab@
+	root@darkstar:~>grep mtab /etc/.etckeeper
+	- exit 1
+	root@darkstar:~>grep adjtime /etc/.gitignore 
+	adjtime
+	root@darkstar:~>ls /etc/adjtime 
+	/etc/adjtime
+	root@darkstar:~>grep adjtime /etc/.etckeeper 
+	- exit 1
+
+You have not yet given an example of it not working.
+"""]]
