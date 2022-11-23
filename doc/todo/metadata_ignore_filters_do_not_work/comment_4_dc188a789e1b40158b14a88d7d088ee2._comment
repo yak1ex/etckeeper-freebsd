@@ -1,0 +1,54 @@
+[[!comment format=mdwn
+ username="anarcat"
+ avatar="http://cdn.libravatar.org/avatar/1bb99a4f017a1d253ad5790c150d0f0b"
+ subject="some examples"
+ date="2022-11-23T16:32:38Z"
+ content="""
+here's an example, from my workstation, which has a similar configuration to the server i was working on for this:
+
+    root@curie:/etc# grep puppet/code/production .gitignore .etckeeper 
+    .gitignore:puppet/code/production
+    .etckeeper:mkdir -p './puppet/code/production'
+    .etckeeper:maybe chown 'puppet' 'puppet/code/production'
+    .etckeeper:maybe chgrp 'puppet' 'puppet/code/production'
+    .etckeeper:maybe chmod 0750 'puppet/code/production'
+    root@curie:/etc# ls -al puppet/code/production/
+    total 18
+    drwxr-x--- 2 puppet puppet 2 30 jun  2020 .
+    drwxr-xr-x 3 root   root   3 30 jun  2020 ..
+
+here you see the empty directory is managed in .etckeeper even though it's ignored.
+
+i thought i provided clearer examples of this in the original article, but i guess it wasn't very explicit... here's an example:
+
+right now, if i revert the changes I made to `etckeeper/pre-commit.d/30store-metadata`, and run the hook:
+
+    VCS=git /etc/etckeeper/pre-commit.d/30store-metadata
+
+... i get this:
+
+    root@marcos:/etc# grep puppet/code/production .gitignore 
+    puppet/code/production
+    root@marcos:/etc# grep -c puppet/code/production .etckeeper 
+    87
+
+it's mostly empty directories, but there's also other stuff:
+
+    root@marcos:/etc# grep puppet/code/production .etckeeper | head -3
+    mkdir -p './puppet/code/production/.g10k/CraigWatson1987-transmission-2.2.1/spec/fixtures'
+    mkdir -p './puppet/code/production/.g10k/duritong-sysctl-0.0.12/spec/fixtures/manifests'
+    mkdir -p './puppet/code/production/.g10k/duritong-sysctl-0.0.12/spec/fixtures/modules/sysctl'
+    root@marcos:/etc# grep puppet/code/production .etckeeper | tail -3
+    mkdir -p './puppet/code/production/modules/inifile/locales/ja'
+    maybe chown 'anarcat' 'puppet/code/production'
+    maybe chmod 0755 'puppet/code/production'
+
+with the patch, it looks like this instead:
+
+    root@marcos:/etc# grep puppet/code/production .gitignore 
+    puppet/code/production
+    root@marcos:/etc# grep -c puppet/code/production .etckeeper 
+    0
+
+the patch proposed here, together with the one on [[todo/metadata_ignore_filters_do_not_work]] improve etckeeper performance tremendously in my case.
+"""]]
