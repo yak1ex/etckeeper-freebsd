@@ -1,0 +1,9 @@
+[[!comment format=mdwn
+ username="hlovdal"
+ nickname="kode"
+ avatar="http://cdn.libravatar.org/avatar/e513ee57b6b0d2c0ae8dfa4b9e85f566"
+ subject="This should not be necessary"
+ date="2022-11-27T17:50:02Z"
+ content="""
+Unless you have a super constrained environment like [openwrt](https://openwrt.org/) then disk usage of `/etc/.git` is completely ignorable (and even so, my openwrt router only uses 2.1Mb for `/etc/.git`, initial commit 2016). I checked all my servers and desktops and the largest was 196Mb on a machine that used to be my main desktop with the repository started in 2017.
+"""]]
