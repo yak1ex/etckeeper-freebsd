@@ -1,0 +1,31 @@
+[[!comment format=mdwn
+ username="hlovdal"
+ nickname="kode"
+ avatar="http://cdn.libravatar.org/avatar/e513ee57b6b0d2c0ae8dfa4b9e85f566"
+ subject="Use git worktree"
+ date="2022-11-27T22:50:32Z"
+ content="""
+While cloning and pulling between repos works, it is as you mentioned a bit cumbersome. What works much better is to create a lightweight [worktree](https://git-scm.com/docs/git-worktree), e.g. `git worktree add /root/etc.worktree main.worktree`. Then `/etc` and `/root/etc.worktree` shares all commits and sort of works like instantly synchronised clones. The only limitation is that the same branch cannot be checked out in both worktrees (I use `main.worktree` as a shadow of `main`).
+
+With that the update scenario will be like
+
+`cd /root/worktree`
+
+`git checkout main.worktree   # Probably default and not needed`
+
+`git merge --ff main # Bring it up to date`
+
+`git rebase --interactive HEAD~10   # Or whatever history modification you want to use`
+
+`cd /etc`
+
+Finish with either `git merge main.worktree`
+or `git reset --hard main.worktree   # NB! reset --hard is a command that might cause you to loose data if you are not careful.`
+
+I mainly use worktree to painlessly resolve new `*.rpmnew` files which are created if a package is updated and a config file update would overwrite some custom non-package modification, e.g say for instance you have changed `GIT_COMMIT_OPTIONS` in `etckeeper.conf` and a newer version of etckeeper has some other update to that config file. If it is the first time I resolve a update conflict I create a branch `rpmnew/etckeeper.conf` from a commit right before I made the `GIT_COMMIT_OPTIONS` modification (which might have been a while ago, so resetting back to that inside /etc would likely be a disaster. Inside a linked worktree there is no problem). Then I overwrite `/root/etc.worktree/etckeeper/etckeeper.conf` with `/etc/etckeeper/etckeeper.conf.rpmnew` and check in. Then the final step is `git checkout main.worktree && git merge rpmnew/etckeeper.conf`. This could potentially result in merge conflicts, but there are excellent tools like [KDiff3](https://kdiff3.sourceforge.net/) to [use for that](https://github.com/hlovdal/git-resolve-conflict-using-kdiff3).
+
+
+The problem with the pre-commit hook still applies in this scenario, but I have just [asked for a patch to be applied that will prevent the hook from running inside linked worktrees](https://etckeeper.branchable.com/todo/Skip_running_pre-commit_hook_inside_linked_worktrees/).
+
+
+"""]]
