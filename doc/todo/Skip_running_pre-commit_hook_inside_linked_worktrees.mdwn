@@ -1,0 +1,7 @@
+Adding a git [worktree](https://git-scm.com/docs/git-worktree) is a great way to being able to change the version history without changing all the other files under `/etc` to some arbitrary old version while doing interactive rebases etc. With a worktree you can do all the work there and then merge in the final result in a clean operation in `/etc` later on.
+
+This could be done by cloning the repository and add it as a remote instead, but that is more cumbersome.
+
+However the pre-commit hook messes things up when it is being run inside the linked worktree as well. It really should only run in the main worktree.
+
+Could you please merge the [worktree](https://github.com/hlovdal/etkeeper/compare/master...worktree) branch which contains one commit that adds a check to avoid running the pre-commit hook in linked worktrees?
