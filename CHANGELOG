@@ -2,6 +2,10 @@ etckeeper (1.18.19) UNRELEASED; urgency=medium
 
   * Added support for Gentoo (emerge, qlist, and cave)
     Thanks, Sam James
+  * Skip running pre-commit hook inside linked worktrees,
+    to avoid it updating .etckeeper with the permissions of files
+    not in /etc.
+    Thanks, Håkon Løvdal
 
  -- Joey Hess <id@joeyh.name>  Tue, 04 Oct 2022 12:35:28 -0400
 

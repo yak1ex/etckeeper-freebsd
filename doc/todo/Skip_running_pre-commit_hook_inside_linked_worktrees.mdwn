@@ -5,3 +5,5 @@ This could be done by cloning the repository and add it as a remote instead, but
 However the pre-commit hook messes things up when it is being run inside the linked worktree as well. It really should only run in the main worktree.
 
 Could you please merge the [worktree](https://github.com/hlovdal/etkeeper/compare/master...worktree) branch which contains one commit that adds a check to avoid running the pre-commit hook in linked worktrees?
+
+> Good patch, [[done]]! --[[Joey]]
