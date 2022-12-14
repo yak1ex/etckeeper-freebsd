@@ -1,0 +1,21 @@
+The pacman hooks that etckeeper use only trigger if a package changes a file in /etc. This breaks when a package only changes /etc in it's post-install script.
+
+An example of this is archlinux-keyring, which runs a post install script to update the gpg trust db in /etc/pacman.
+
+The solution is to change the hooks to always run. Instead of:
+
+```
+Type = Path
+Target = etc/*
+```
+
+use something like:
+
+```
+Type = Package
+Target = *
+```
+
+At least when using git, `etckeeper pre-install` and `etckeeper post-install` are quick enough on my computer that running when not needed is not a big deal.
+
+Here is the Arch Linux bug about this: https://bugs.archlinux.org/task/76826
