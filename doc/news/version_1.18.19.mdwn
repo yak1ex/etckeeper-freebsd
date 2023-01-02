@@ -1,0 +1,9 @@
+etckeeper 1.18.19 released with [[!toggle text="these changes"]]
+[[!toggleable text="""  * Added support for Gentoo (emerge, qlist, and cave)
+    Thanks, Sam James
+  * Skip running pre-commit hook inside linked worktrees,
+    to avoid it updating .etckeeper with the permissions of files
+    not in /etc.
+    Thanks, Håkon Løvdal
+  * commit: Run bzr with --quiet, since it outputs non-errors to stderr.
+    Closes: #[1018874](http://bugs.debian.org/1018874)"""]]
