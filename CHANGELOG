@@ -1,4 +1,4 @@
-etckeeper (1.18.19) UNRELEASED; urgency=medium
+etckeeper (1.18.19) upstream; urgency=medium
 
   * Added support for Gentoo (emerge, qlist, and cave)
     Thanks, Sam James
@@ -6,8 +6,10 @@ etckeeper (1.18.19) UNRELEASED; urgency=medium
     to avoid it updating .etckeeper with the permissions of files
     not in /etc.
     Thanks, Håkon Løvdal
+  * commit: Run bzr with --quiet, since it outputs non-errors to stderr.
+    Closes: #1018874
 
- -- Joey Hess <id@joeyh.name>  Tue, 04 Oct 2022 12:35:28 -0400
+ -- Joey Hess <id@joeyh.name>  Mon, 02 Jan 2023 14:18:29 -0400
 
 etckeeper (1.18.18) upstream; urgency=medium
 

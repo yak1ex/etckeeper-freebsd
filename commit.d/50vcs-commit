@@ -128,7 +128,7 @@ elif [ "$VCS" = bzr ] && [ -d .bzr ]; then
 	if [ -n "$logfile" ]; then
 		bzr commit $BZR_COMMIT_OPTIONS -F "$logfile"
 	else
-		bzr commit $BZR_COMMIT_OPTIONS
+		bzr commit --quiet $BZR_COMMIT_OPTIONS
 	fi
 elif [ "$VCS" = darcs ] && [ -d _darcs ]; then
 	if [ -z "$USER" ]; then
