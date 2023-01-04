@@ -1,3 +1,10 @@
+etckeeper (1.18.20) upstream; urgency=medium
+
+  * Fix a reversion in etckeeper init in version 1.18.19.
+    Thanks, Georgy Yakovlev
+
+ -- Joey Hess <id@joeyh.name>  Wed, 04 Jan 2023 13:23:19 -0400
+
 etckeeper (1.18.19) upstream; urgency=medium
 
   * Added support for Gentoo (emerge, qlist, and cave)
