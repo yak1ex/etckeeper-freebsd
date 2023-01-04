@@ -1,0 +1,3 @@
+etckeeper 1.18.20 released with [[!toggle text="these changes"]]
+[[!toggleable text="""  * Fix a reversion in etckeeper init in version 1.18.19.
+    Thanks, Georgy Yakovlev"""]]
