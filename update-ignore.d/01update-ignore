@@ -185,7 +185,7 @@ if [ -e "$file" ]; then
 	fi
 	realfile="$file"
 	if command -v mktemp >/dev/null; then
-		tempfile="mktemp"
+		tempfile="mktemp -t etckeeper-$VCS.XXXXXXXXXX"
 	elif command -v tempfile >/dev/null; then
 		tempfile="tempfile"
 	else

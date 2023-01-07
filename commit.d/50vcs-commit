@@ -7,8 +7,17 @@ cleanup () {
 	fi
 }
 if [ -n "$1" ]; then
+	if command -v mktemp >/dev/null; then
+		tempfile="mktemp -t etckeeper-$VCS.XXXXXXXXXX"
+	elif command -v tempfile >/dev/null; then
+		tempfile="tempfile"
+	else
+		echo "etckeeper warning: can't find tempfile or mktemp" >&2
+		exit 1
+	fi
+
 	trap cleanup EXIT
-	logfile="$(mktemp -t etckeeper-$VCS.XXXXXXXXXX)"
+	logfile="$($tempfile)"
 	if [ "x$1" = "x--stdin" ]; then
 		cat > "$logfile"
 	else

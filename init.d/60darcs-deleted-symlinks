@@ -13,7 +13,7 @@ filter_ignore() {
 		#grep -Ev $patterns
 		#unset patterns
 		# Alternative using a temp file
-		patternsfile="$( mktemp -t etckeeper-$VCS.XXXXXXXXXX )"
+		patternsfile="$($tempfile)"
 		grep -v '^[[:space:]]*\(#\|$\)' "$ignorefile" > "$patternsfile" || true
 		grep -Evf "$patternsfile"
 		rm -f "$patternsfile"
@@ -25,11 +25,20 @@ filter_ignore() {
 
 
 if [ "$VCS" = darcs ];then
+	if command -v mktemp >/dev/null; then
+		tempfile="mktemp -t etckeeper-$VCS.XXXXXXXXXX"
+	elif command -v tempfile >/dev/null; then
+		tempfile="tempfile"
+	else
+		echo "etckeeper warning: can't find tempfile or mktemp" >&2
+		exit 1
+	fi
+
 	NOVCS='. -path ./.git -prune -o -path ./.bzr -prune -o -path ./.hg -prune -o -path ./_darcs -prune -o'
 
 	# We assume that if .etckeeper is empty this is the first run
 	if [ -s .etckeeper ]; then
-		linksindex="$( mktemp -t etckeeper-$VCS.XXXXXXXXXX )"
+		linksindex="$($tempfile)"
 		grep '^ln -s' .etckeeper | while IFS="'" read n n n link n; do
 			printf "%s\n" "$link" >> "$linksindex"
 		done
