@@ -1,0 +1,6 @@
+Currently etckeeper has two different mechanisms for creating temporary files.  There's no clear reason for that, and it caught me out when I was trying to update some of the scripts for my own purposes.
+
+I don't particularly mind how this is resolved, but I'd like it resolved in some consistent fashion! I've made two patches for two different resolutions:
+
+- [Allow either `mktemp` or `tempfile` everywhere](https://github.com/me-and/etckeeper/commit/96d4da2314ad64147835554371d04372cb4a4612) (best for backwards compatibility, as it'll keep working for folk who don't have `mktemp`)
+- [Consistently assume `mktemp` is available](https://github.com/me-and/etckeeper/commit/3fb703588997590fec4776fb91e3b119ab3f75f9) (best for simplicity)
