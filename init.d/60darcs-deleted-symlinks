@@ -1,5 +1,14 @@
 #!/bin/sh
 set -e
+	
+if command -v mktemp >/dev/null; then
+	tempfile="mktemp -t etckeeper-$VCS.XXXXXXXXXX"
+elif command -v tempfile >/dev/null; then
+	tempfile="tempfile"
+else
+	echo "etckeeper warning: can't find tempfile or mktemp" >&2
+	exit 1
+fi
 
 filter_ignore() {
 	if [ "$VCS" = darcs ]; then
@@ -23,17 +32,7 @@ filter_ignore() {
 	fi
 }
 
-
 if [ "$VCS" = darcs ];then
-	if command -v mktemp >/dev/null; then
-		tempfile="mktemp -t etckeeper-$VCS.XXXXXXXXXX"
-	elif command -v tempfile >/dev/null; then
-		tempfile="tempfile"
-	else
-		echo "etckeeper warning: can't find tempfile or mktemp" >&2
-		exit 1
-	fi
-
 	NOVCS='. -path ./.git -prune -o -path ./.bzr -prune -o -path ./.hg -prune -o -path ./_darcs -prune -o'
 
 	# We assume that if .etckeeper is empty this is the first run
