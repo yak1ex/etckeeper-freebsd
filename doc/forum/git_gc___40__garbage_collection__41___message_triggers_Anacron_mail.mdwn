@@ -1,0 +1,19 @@
+Hi there,
+
+I'm using etckeeper 1.18.17 on Ubuntu kinetic (22.10).
+
+Every few days (roughly 4-8 days, the exact frequency varies, probably depending on how much I change in /etc) I get a mail from Anacron that has the following content:
+
+```
+/etc/cron.daily/etckeeper:
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+```
+
+I guess the automatic garbage collection of git is executed, which prints this unimportant bit of information to stdout, thus triggering an e-mail by Anacron.
+
+Since there is no actual problem, we should suppress this output, so that no mail will be sent.
+One idea would be to just run 'git gc --auto' on a daily basis, I guess?
+
+Cheers,
+Patrick.
