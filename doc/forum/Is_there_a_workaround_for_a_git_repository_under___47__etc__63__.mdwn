@@ -4,14 +4,14 @@ I've attempted to add the repo as git submodule in /etc/.gitmodules and tried to
 
 If I have a git repo in /etc/myrepo:
 
-# etckeeper commit "daily autocommit"
-On branch master
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-  (commit or discard the untracked or modified content in submodules)
-	modified:   myrepo (untracked content)
+    # etckeeper commit "daily autocommit"
+    On branch master
+    Changes not staged for commit:
+      (use "git add <file>..." to update what will be committed)
+      (use "git restore <file>..." to discard changes in working directory)
+      (commit or discard the untracked or modified content in submodules)
+	    modified:   myrepo (untracked content)
 
-no changes added to commit (use "git add" and/or "git commit -a")
-# echo $?
-1
+    no changes added to commit (use "git add" and/or "git commit -a")
+    # echo $?
+    1
