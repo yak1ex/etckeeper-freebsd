@@ -1,6 +1,6 @@
 I did some research and found out that there is no good way to avoid etckeeper commit "daily autocommit" exiting with status code other than zero if there is a git repository under the /etc hierarchy? This causes the /etc/cron.daily/etckeeper to send an e-mail every day with body "run-parts: /etc/cron.daily/etckeeper exited with return code 1."
 
-I've attempted to add the repo as git submodule in /etc/.gitmodules and tried to add "-path ./local -prune -o" to the NOVCS in /etc/etckeeper/pre-commit.d/30store-metadata but neither of these fixed the issue.
+I've attempted to add the repo as git submodule in /etc/.gitmodules and tried to add "-path ./myrepo -prune -o" to the NOVCS in /etc/etckeeper/pre-commit.d/30store-metadata but neither of these fixed the issue.
 
 If I have a git repo in /etc/myrepo:
 
