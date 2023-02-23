@@ -1,0 +1,35 @@
+[[!comment format=mdwn
+ username="me_and"
+ avatar="http://cdn.libravatar.org/avatar/f8647c2810c056bbdb8857117708ae3d"
+ subject="comment 1"
+ date="2023-02-23T13:27:23Z"
+ content="""
+What are you trying to achieve here?  I'm not sure what your goal is from the question. Would you rather…
+
+- Have etckeeper ignore the `/etc/myrepo` directory entirely
+- Have etckeeper automatically commit changes to `/etc/myrepo` as a submodule, then automatically commit submodule changes to the `/etc` repository
+- Have etckeeper not run daily commits at all
+- Something else…
+
+If you _just_ want to disable the non-zero exit status, you can change `/etc/etckeeper/commit.d/50vcs-commit` to suppress the exit status.  To do that, change the following lines:
+
+```
+        if [ -n \"$logfile\" ]; then
+                git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS -F \"$logfile\"
+        else
+                git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS
+        fi
+```
+
+to
+
+```
+        if [ -n \"$logfile\" ]; then
+                git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS -F \"$logfile\" || :
+        else
+                git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS || :
+        fi
+```
+
+But all that will do is prevent any errors from being reported, which I suspect isn't what you're after! All `etckeeper commit` is doing is running the scripts in `/etc/etckeeper/commit`, though, so you should be able to change it to do whatever you want just by editing those scripts.
+"""]]
