@@ -1,0 +1,12 @@
+[[!comment format=mdwn
+ username="me_and"
+ avatar="http://cdn.libravatar.org/avatar/f8647c2810c056bbdb8857117708ae3d"
+ subject="comment 3"
+ date="2023-03-02T20:46:48Z"
+ content="""
+In that case, I'd recommend just having the directory ignored:
+
+```
+sudo sed -i 1i/myrepo /etc/.gitignore
+```
+"""]]
