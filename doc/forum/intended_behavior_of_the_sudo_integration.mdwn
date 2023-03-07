@@ -1,0 +1,5 @@
+I noticed that with the `sudo` integration, the author will be set to the
+administrator. However, the commiter is still using the automatically-generated
+email address for root user. The issue is that I still need to set the full name
+for that “user”. How about also generating its full name? Or simply use the
+administrator as both author and commiter?
