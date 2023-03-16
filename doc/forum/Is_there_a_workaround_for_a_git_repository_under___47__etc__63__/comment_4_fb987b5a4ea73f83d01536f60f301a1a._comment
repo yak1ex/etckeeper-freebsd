@@ -1,0 +1,16 @@
+[[!comment format=mdwn
+ username="pulk"
+ avatar="http://cdn.libravatar.org/avatar/3aca97ac14e8c43b9da4a9070d45e443"
+ subject="comment 4"
+ date="2023-03-16T14:18:17Z"
+ content="""
+Unfortunately that does not work. I tried all these in /etc/.gitignore:
+     
+     myrepo
+     myrepo/*
+     /myrepo
+     /myrepo/*
+     
+But I still get the error each time.
+
+"""]]
