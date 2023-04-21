@@ -1,0 +1,17 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 1"""
+ date="2023-04-21T15:53:20Z"
+ content="""
+When user.email is not set in the global git config, 
+etckeeper sets `GIT_COMMITTER_EMAIL` to
+
+	`whoami`"@$hostname"
+
+Where $hostname is `hostname` with `dnsdomainname` added as the domain if
+that outputs anything.
+
+It's possible etckeeper could be improved, but I don't have a sufficiently
+broken system to see it fail, so patches or further analysis would be up to
+you.
+"""]]
