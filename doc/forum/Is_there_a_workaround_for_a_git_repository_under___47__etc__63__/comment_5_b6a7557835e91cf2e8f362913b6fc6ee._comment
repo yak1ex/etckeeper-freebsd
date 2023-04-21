@@ -1,0 +1,17 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 5"""
+ date="2023-04-21T16:02:43Z"
+ content="""
+Your repo has already been added as a submodule. That's why git commit is
+complaining about it.
+
+If you put it in /etc/.gitignore before `etckeeper commit`,
+it will be ignored from the beginning.
+
+At this point you will need to remove the submodule as well as ignoring it.
+
+I was a little surprised to see etckeeper adding git repos within /etc
+as submodules, but it turns out that `git add --all` or `git add .` do add
+submodules that way.
+"""]]
