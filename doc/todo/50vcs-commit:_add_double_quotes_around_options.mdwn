@@ -2,13 +2,17 @@ I'm using Arch Linux, and the version number of etckeeper is 1.18.20-2.
 
 Background information: I utilize GitHub to automatically push my /etc directory to a repository. However, when etckeeper uses my GitHub account's git author information, it affects the contribution graph. Unfortunately, GitHub doesn't offer an option to exclude a single repository from the contribution graph. As a result, I decided to modify the git author.
 
-Modifying the code directly is not considered good practice. Instead, I chose to modify the /etc/etckeeper/etckeeper.conf file. After the modification, the configuration looks like this: GIT_COMMIT_OPTIONS="--author=\"username <username@localhost>\"".
+Modifying the code directly is not considered good practice. Instead, I chose to modify the `/etc/etckeeper/etckeeper.conf` file. After the modification, the configuration looks like this:
 
-When I execute the etckeeper commit command, it displays the following error: "fatal: --author '"username' is not 'Name <email>' and matches no existing author".
+`GIT_COMMIT_OPTIONS="--author=\"username <username@localhost>\""`
+
+When I execute the `etckeeper commit` command, it displays the following error:
+
+`fatal: --author '"username' is not 'Name <email>' and matches no existing author`
 
 Upon inspecting the code, I discovered that the commit.d/50vcs-commit script requires fixing. Specifically, double quotes need to be added around $GIT_COMMIT_OPTIONS. After including the double quotes, etckeeper functions as expected.
 
-I applied the same modification to HG_COMMIT_OPTIONS, BZR_COMMIT_OPTIONS, and DARCS_COMMIT_OPTIONS. The resulting patch is provided below:
+I applied the same modification to $HG_COMMIT_OPTIONS, $BZR_COMMIT_OPTIONS, and $DARCS_COMMIT_OPTIONS. The resulting patch is provided below:
 
 
 ```
