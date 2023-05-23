@@ -1,0 +1,65 @@
+I'm using Arch Linux, and the version number of etckeeper is 1.18.20-2.
+
+Background information: I utilize GitHub to automatically push my /etc directory to a repository. However, when etckeeper uses my GitHub account's git author information, it affects the contribution graph. Unfortunately, GitHub doesn't offer an option to exclude a single repository from the contribution graph. As a result, I decided to modify the git author.
+
+Modifying the code directly is not considered good practice. Instead, I chose to modify the /etc/etckeeper/etckeeper.conf file. After the modification, the configuration looks like this: GIT_COMMIT_OPTIONS="--author=\"username <username@localhost>\"".
+
+When I execute the etckeeper commit command, it displays the following error: "fatal: --author '"username' is not 'Name <email>' and matches no existing author".
+
+Upon inspecting the code, I discovered that the commit.d/50vcs-commit script requires fixing. Specifically, double quotes need to be added around $GIT_COMMIT_OPTIONS. After including the double quotes, etckeeper functions as expected.
+
+I applied the same modification to HG_COMMIT_OPTIONS, BZR_COMMIT_OPTIONS, and DARCS_COMMIT_OPTIONS. The resulting patch is provided below:
+
+
+```
+diff --git a/commit.d/50vcs-commit b/commit.d/50vcs-commit
+index a76eb7e..8ac8581 100755
+--- a/commit.d/50vcs-commit
++++ b/commit.d/50vcs-commit
+@@ -109,9 +109,9 @@ if [ "$VCS" = git ] && [ -d .git ]; then
+ 	fi
+ 
+ 	if [ -n "$logfile" ]; then
+-		git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS -F "$logfile"
++		git $GIT_GC_OPTIONS commit "$GIT_COMMIT_OPTIONS" -F "$logfile"
+ 	else
+-		git $GIT_GC_OPTIONS commit $GIT_COMMIT_OPTIONS
++		git $GIT_GC_OPTIONS commit "$GIT_COMMIT_OPTIONS"
+ 	fi
+ elif [ "$VCS" = hg ] && [ -d .hg ]; then
+ 	if [ -n "$USER" ]; then
+@@ -123,9 +123,9 @@ elif [ "$VCS" = hg ] && [ -d .hg ]; then
+ 		export HGUSER
+ 	fi
+ 	if [ -n "$logfile" ]; then
+-		hg commit $HG_COMMIT_OPTIONS -l "$logfile"
++		hg commit "$HG_COMMIT_OPTIONS" -l "$logfile"
+ 	else
+-		hg commit $HG_COMMIT_OPTIONS
++		hg commit "$HG_COMMIT_OPTIONS"
+ 	fi
+ elif [ "$VCS" = bzr ] && [ -d .bzr ]; then
+ 	if [ -z "$EMAIL" ] && [ -n "$USER" ]; then
+@@ -135,17 +135,17 @@ elif [ "$VCS" = bzr ] && [ -d .bzr ]; then
+ 		bzr whoami >/dev/null 2>&1 || export EMAIL="$ORIG_USER <$ORIG_USER@$hostname>"
+ 	fi
+ 	if [ -n "$logfile" ]; then
+-		bzr commit $BZR_COMMIT_OPTIONS -F "$logfile"
++		bzr commit "$BZR_COMMIT_OPTIONS" -F "$logfile"
+ 	else
+-		bzr commit --quiet $BZR_COMMIT_OPTIONS
++		bzr commit --quiet "$BZR_COMMIT_OPTIONS"
+ 	fi
+ elif [ "$VCS" = darcs ] && [ -d _darcs ]; then
+ 	if [ -z "$USER" ]; then
+ 		USER=root
+ 	fi
+ 	if [ -n "$logfile" ]; then
+-		darcs record --author="$USER" $DARCS_COMMIT_OPTIONS --logfile="$logfile"
++		darcs record --author="$USER" "$DARCS_COMMIT_OPTIONS" --logfile="$logfile"
+ 	else
+-		darcs record --author="$USER" $DARCS_COMMIT_OPTIONS
++		darcs record --author="$USER" "$DARCS_COMMIT_OPTIONS"
+ 	fi
+ fi
+```
