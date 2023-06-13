@@ -1,0 +1,7 @@
+To increase the reliability of our system (it has daily power outages), we've made the root partition read-only, and only make it writable when we're making a change.
+
+Etckeeper doesn't like it if /etc is read-only, and generates daily emails to root about it.
+
+One idea is to move /etc/.git to /var/etckeeper/.git and create a symlink in its place; would it work, or is git fussy about that sort of thing?
+
+Thanks
