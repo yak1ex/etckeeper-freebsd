@@ -1,0 +1,8 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 1"""
+ date="2023-06-13T15:01:39Z"
+ content="""
+Wouldn't this break providing multiple space-seperated 
+options in `GIT_COMMIT_OPTIONS`, when it previously worked?
+"""]]
