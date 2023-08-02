@@ -1,0 +1,5 @@
+Hello,
+
+There is a solution include in etckeeper that allow to create a list of files or directories that can be automatically commit even if we desactivate global daily autocommit or install before install ?
+
+Regards
