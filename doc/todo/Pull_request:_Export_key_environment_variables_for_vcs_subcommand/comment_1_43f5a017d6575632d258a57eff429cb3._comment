@@ -1,0 +1,29 @@
+[[!comment format=mdwn
+ username="joey"
+ subject="""comment 1"""
+ date="2023-08-07T17:47:11Z"
+ content="""
+Looking back at [[!commit 65eda73020e0aa6bf15e64106dae955bf17a41dd]], the
+initial idea of `etckeeper vcs` was to run the command in the same
+environment that etckeeper uses. Which it does do for `HOME` and a few
+other things.
+
+So I'm broadly in agreement that this might be a good idea. But copying
+86 lines of quite hairy code is certainly not a maintainable way to do it.
+
+There's also the question of whether a user might be surprised to find
+specific things that happen to be set in the `etckeeper commit` environment
+being set.
+
+Also worth bearing in mind that `etckeeper commit` needs to run
+successfully even if the host doesn't have a hostname configured or in the
+face of other problems that typically prevent git from committing. Because
+it's run by eg apt hooks, and generally is an abstraction layer where the
+user may not be comfortable setting up git. That does not really apply to
+`etckeeper vcs`, and so a certian amount of the code from `etckeeper
+commit` doesn't seem necessary in `etckeeper vcs`.
+
+(Also you have this line that was accidentially left in:
+	echo "Testing; \$USER: $USER"`
+)
+"""]]
