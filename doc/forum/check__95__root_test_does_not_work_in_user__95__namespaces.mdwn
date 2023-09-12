@@ -1,0 +1,7 @@
+when building etckeeper in void linux, which uses user_namespaces(7) to chroot, the tests 8 (and sometimes 7) fail.
+see https://github.com/void-linux/void-packages/pull/42192
+and https://github.com/void-linux/void-packages#chroot-methods
+
+this is (likely) due to the check_root test not detecting that the build is performed inside a chroot.
+
+any suggestion how one could improve that?
