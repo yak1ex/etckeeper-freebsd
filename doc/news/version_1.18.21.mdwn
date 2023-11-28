@@ -1,0 +1,4 @@
+etckeeper 1.18.21 released with [[!toggle text="these changes"]]
+[[!toggleable text="""  * Consistently use mktemp if available, falling back to tempfile
+    otherwise.
+    Thanks, Adam Dinwoodie"""]]
