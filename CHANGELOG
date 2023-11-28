@@ -1,10 +1,10 @@
-etckeeper (1.18.21) UNRELEASED; urgency=medium
+etckeeper (1.18.21) upstream; urgency=medium
 
   * Consistently use mktemp if available, falling back to tempfile
     otherwise.
     Thanks, Adam Dinwoodie
 
- -- Joey Hess <id@joeyh.name>  Mon, 16 Jan 2023 11:42:05 -0400
+ -- Joey Hess <id@joeyh.name>  Tue, 28 Nov 2023 14:09:16 -0400
 
 etckeeper (1.18.20) upstream; urgency=medium
 
