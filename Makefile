@@ -24,7 +24,7 @@ build: etckeeper.spec etckeeper.version
 	-$(PYTHON) ./etckeeper-bzr/__init__.py build || echo "** bzr support not built"
 	-$(PYTHON) ./etckeeper-dnf/etckeeper.py build || echo "** DNF support not built"
 
-install: etckeeper.version
+install: etckeeper.version etckeeper.8.gz
 	mkdir -p $(DESTDIR)$(etcdir)/etckeeper/ $(DESTDIR)$(vardir)/cache/etckeeper/
 	$(CP) *.d $(DESTDIR)$(etcdir)/etckeeper/
 	$(INSTALL_EXE) daily $(DESTDIR)$(etcdir)/etckeeper/daily
@@ -32,7 +32,7 @@ install: etckeeper.version
 	mkdir -p $(DESTDIR)$(bindir)
 	$(INSTALL_EXE) etckeeper $(DESTDIR)$(bindir)/etckeeper
 	mkdir -p $(DESTDIR)$(mandir)/man8
-	$(INSTALL_DATA) etckeeper.8 $(DESTDIR)$(mandir)/man8/etckeeper.8
+	$(INSTALL_DATA) etckeeper.8.gz $(DESTDIR)$(mandir)/man8/etckeeper.8.gz
 	mkdir -p $(DESTDIR)$(bashcompletiondir)
 	$(INSTALL_DATA) bash_completion $(DESTDIR)$(bashcompletiondir)/etckeeper
 	mkdir -p $(DESTDIR)$(zshcompletiondir)
@@ -72,7 +72,7 @@ endif
 	echo "** installation successful"
 
 clean: etckeeper.spec etckeeper.version
-	rm -rf build
+	rm -rf build etckeeper.8.gz
 
 test:
 	mkdir $(TESTDIR)
@@ -90,5 +90,8 @@ etckeeper.spec:
 etckeeper.version:
 	sed -i~ "s/Version:.*/Version: $$(perl -e '$$_=<>;m/\((.*?)(-.*)?\)/;print $$1;' <CHANGELOG)\"/" etckeeper
 	rm -f etckeeper~
+
+etckeeper.8.gz: etckeeper.8
+	gzip --keep --force $^
 
 .PHONY: etckeeper.spec etckeeper.version
