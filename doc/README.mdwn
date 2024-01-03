@@ -1,3 +1,46 @@
+# NOTES for this FreeBSD port
+
+Initial FreeBSD support by pkgng plugin is merged in the original version, see https://etckeeper.branchable.com/todo/freebsd_pkgng_plugin/
+
+This FreeBSD port includes some more support.
+
+- Hooks for ports
+  - ports uses `pkg-static` as default so the plugin has no effect.
+  - ports uses `pkg delete` but not `pkg install` so the pkgng install hook has no effect even though the plugin-enabled `pkg` is used.
+- Daily auto commit for FreeBSD periodic system
+- Prefix adjustment: installed under `/usr/local`
+- Install a compressed man page
+- `etckeeper.conf` has been adjusted for FreeBSD
+- `find` has no `printf` option in FreeBSD
+
+## Install
+
+The root Makefile expects GNU Make while the pkgng Makefile expects BSD Make.
+
+```sh
+gmake install
+cd pkgng
+make install
+```
+
+To tweak `/etc/make.conf` for ports is done by `make install`, while to tweak `/usr/local/pkg/pkg.conf` for `pkg` is **NOT** done. As desribed at https://github.com/radhus/etckeeper/commit/f849bcc558c2c83b8738e31d2aee56d979c39555, you need to modify `/usr/local/pkg/pkg.conf` manually like:
+
+```txt
+PLUGINS [ etckeeper ]
+```
+
+## Limitation
+
+- `/etc/pam.d/ftp` and `/etc/pam.d/ftpd` are hardlinks for fresh install of FreeBSD so warnings may be produced.
+- FreeBSD ports/pkg system uses `/usr/local/etc` for configuration files. You can use `etckeeper` manually for them but daily auto commit and ports/pkg hooks don't consider them as target currently.
+
+## License
+
+Files modified by me follows original licenses.
+Added files under pkgng/ is licensed by BSD 2-Clause.
+
+# README in the original version
+
 etckeeper is a collection of tools to let `/etc` be stored in a git,
 mercurial, bazaar or darcs repository. This lets you use git to review or
 revert changes that were made to `/etc`. Or even push the repository
