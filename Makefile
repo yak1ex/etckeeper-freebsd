@@ -4,14 +4,14 @@ CONFFILE=etckeeper.conf
 include $(CONFFILE)
 
 DESTDIR?=
-prefix=/usr
+prefix=/usr/local
 bindir=${prefix}/bin
-etcdir=/etc
-mandir=${prefix}/share/man
+etcdir=/usr/local/etc
+mandir=${prefix}/man
 vardir=/var
 systemddir=/lib/systemd/system
 bashcompletiondir=${prefix}/share/bash-completion/completions
-zshcompletiondir=${prefix}/share/zsh/vendor-completions
+zshcompletiondir=${prefix}/share/zsh/site-functions
 CP=cp -R
 INSTALL=install 
 INSTALL_EXE=${INSTALL}

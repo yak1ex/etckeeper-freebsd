@@ -2,7 +2,7 @@
 set -e
 
 if [ -z "$ETCKEEPER_CONF_DIR" ]; then
-	ETCKEEPER_CONF_DIR=/etc/etckeeper
+	ETCKEEPER_CONF_DIR=/usr/local/etc/etckeeper
 fi
 
 conf="$ETCKEEPER_CONF_DIR/etckeeper.conf"

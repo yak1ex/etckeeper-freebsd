@@ -1,7 +1,7 @@
 #!/bin/sh
 # Script that can be run daily to autocommit /etc changes.
 set -e
-if [ -x /usr/bin/etckeeper ] && [ -e /etc/etckeeper/etckeeper.conf ]; then
+if [ -x /usr/local/bin/etckeeper ] && [ -e /usr/local/etc/etckeeper/etckeeper.conf ]; then
 	# avoid autocommit if an install run is in progress
 	lockfile=/var/cache/etckeeper/packagelist.pre-install
 	if [ -e "$lockfile" ] && [ -n "$(find "$lockfile" -mtime +1)" ]; then
