@@ -37,9 +37,9 @@ install: etckeeper.version etckeeper.8.gz
 	$(INSTALL_DATA) bash_completion $(DESTDIR)$(bashcompletiondir)/etckeeper
 	mkdir -p $(DESTDIR)$(zshcompletiondir)
 	$(INSTALL_DATA) zsh_completion $(DESTDIR)$(zshcompletiondir)/_etckeeper
-	mkdir -p $(DESTDIR)$(systemddir)
-	$(INSTALL_DATA) systemd/etckeeper.service $(DESTDIR)$(systemddir)/etckeeper.service
-	$(INSTALL_DATA) systemd/etckeeper.timer $(DESTDIR)$(systemddir)/etckeeper.timer
+#	mkdir -p $(DESTDIR)$(systemddir)
+#	$(INSTALL_DATA) systemd/etckeeper.service $(DESTDIR)$(systemddir)/etckeeper.service
+#	$(INSTALL_DATA) systemd/etckeeper.timer $(DESTDIR)$(systemddir)/etckeeper.timer
 ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),apt)
 	mkdir -p $(DESTDIR)$(etcdir)/apt/apt.conf.d
 	$(INSTALL_DATA) apt.conf $(DESTDIR)$(etcdir)/apt/apt.conf.d/05etckeeper
