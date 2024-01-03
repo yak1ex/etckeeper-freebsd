@@ -1,0 +1,22 @@
+#!/bin/sh -
+#
+# $FreeBSD$
+#
+
+if [ -r /etc/defaults/periodic.conf ]; then
+	. /etc/defaults/periodic.conf
+	source_periodic_confs
+fi
+
+rc=0
+
+case "${daily_etckeeper_autocommit_enable:-YES}" in
+[Nn][Oo])
+	;;
+*)
+	/usr/local/etc/etckeeper/daily
+	rc=$?
+	;;
+esac
+
+exit $rc

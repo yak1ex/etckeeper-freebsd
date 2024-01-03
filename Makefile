@@ -68,6 +68,13 @@ ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),zypper)
 	mkdir -p $(DESTDIR)$(prefix)/lib/zypp/plugins/commit
 	$(INSTALL) zypper-etckeeper.py $(DESTDIR)$(prefix)/lib/zypp/plugins/commit/zypper-etckeeper.py
 endif
+ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
+	$(INSTALL_EXE) pkgng/pkg-delete-wrapper $(DESTDIR)$(etcdir)/etckeeper/pkg-delete-wrapper
+	$(INSTALL_EXE) pkgng/pkg-register-wrapper $(DESTDIR)$(etcdir)/etckeeper/pkg-register-wrapper
+	mkdir -p $(DESTDIR)$(etcdir)/periodic/daily
+	$(INSTALL_EXE) pkgng/etckeeper_autocommit $(DESTDIR)$(etcdir)/periodic/daily/etckeeper_autocommit
+	pkgng/adjust_make_conf install
+endif
 	-$(PYTHON) ./etckeeper-bzr/__init__.py install --root=$(DESTDIR) ${PYTHON_INSTALL_OPTS} || echo "** bzr support not installed"
 	echo "** installation successful"
 

@@ -1,0 +1,4 @@
+#!/bin/sh
+/usr/local/bin/etckeeper pre-install
+$(make -f /usr/ports/Mk/bsd.port.mk -V PKG_BIN) register $*
+/usr/local/bin/etckeeper post-install

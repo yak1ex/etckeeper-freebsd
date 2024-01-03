@@ -1,0 +1,46 @@
+#!/bin/sh
+
+MAKE_CONF=/etc/make.conf
+
+do_install()
+{
+    echo -n "Setting up ${MAKE_CONF}..."
+    if ! grep -q "# Begin etckeeper settings" ${MAKE_CONF}; then
+        cat >> ${MAKE_CONF} << EOF
+# Begin etckeeper settings
+# Do not touch these lines
+PKG_DELETE=/usr/local/etc/etckeeper/pkg-delete-wrapper
+PKG_REGISTER=/usr/local/etc/etckeeper/pkg-register-wrapper
+# End etckeeper settings
+EOF
+        echo " Done."
+    else
+        echo " Already done, skip."
+    fi
+}
+
+do_uninstall()
+{
+    echo -n "Cleaning up ${MAKE_CONF}..."
+    if [ -f ${MAKE_CONF} ]; then
+        sed -e "/# Begin etckeeper settings/,/# End etckeeper settings/d" \
+            -i "" ${MAKE_CONF}
+        if [ ! -s ${MAKE_CONF} ]; then
+            rm ${MAKE_CONF}
+        fi
+    fi
+    echo " Done."
+}
+
+case $1 in
+install)
+    do_install
+    ;;
+uninstall)
+    do_uninstall
+    ;;
+*)
+    echo "usage: adjust_make_conf <install|uninstall>" >&2
+    exit 1
+    ;;
+esac
