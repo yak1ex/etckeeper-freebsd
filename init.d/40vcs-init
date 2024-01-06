@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-description="$(hostname 2>/dev/null || cat /etc/hostname) /etc repository"
+description="$(hostname 2>/dev/null || cat /etc/hostname) $ETCKEEPER_DIR repository"
 if [ "$VCS" = git ] && [ ! -e .git ]; then
 	git init
 	echo "$description" > .git/description

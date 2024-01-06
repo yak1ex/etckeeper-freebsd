@@ -47,7 +47,7 @@ get_changed_packages () {
 		get_changes | sed 's/^/\/etc\//;s/\s*$//' | xargs -d '\n' pacman 2>/dev/null -Qo | rev | cut -d' ' -f1-2 | rev | cut -d' ' -f1
 	fi
 	if [ "$LOWLEVEL_PACKAGE_MANAGER" = pkgng ]; then
-		get_changes | sed 's/^/\/etc\//;s/\s*$//' | xargs -d '\n' pkg which --quiet | rev | cut -d'-' -f2- | rev
+		get_changes | sed 's/^/\'$ETCKEEPER_DIR'\//;s/\s*$//' | xargs -d '\n' pkg which --quiet | rev | cut -d'-' -f2- | rev
 	fi
 	if [ "$LOWLEVEL_PACKAGE_MANAGER" = xbps ]; then
 		get_changes | sed 's/^/\/etc\//;s/\s*$//' | xargs -d '\n' xbps-query -o | cut -d':' -f1
@@ -56,9 +56,9 @@ get_changed_packages () {
 
 if etckeeper unclean; then
 	if [ -z "${ETCKEEPER_PARENT_COMMAND_LINE}" ]; then
-		message="committing changes in /etc after $HIGHLEVEL_PACKAGE_MANAGER run"
+		message="committing changes in $ETCKEEPER_DIR after $HIGHLEVEL_PACKAGE_MANAGER run"
 	else
-		message="committing changes in /etc made by \"$ETCKEEPER_PARENT_COMMAND_LINE\""
+		message="committing changes in $ETCKEEPER_DIR made by \"$ETCKEEPER_PARENT_COMMAND_LINE\""
 	fi
 
 	set +e
@@ -86,7 +86,7 @@ if etckeeper unclean; then
 	set -e
 
 	if [ "$status" != 0 ]; then
-		echo "warning: etckeeper failed to commit changes in /etc using $VCS" >&2
+		echo "warning: etckeeper failed to commit changes in $ETCKEEPER_DIR using $VCS" >&2
 	fi
 fi
 
