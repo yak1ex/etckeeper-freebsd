@@ -78,7 +78,11 @@ ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
 	$(INSTALL_EXE) pkgng/pkg-register-wrapper $(DESTDIR)$(etcdir)/etckeeper/pkg-register-wrapper
 	mkdir -p $(DESTDIR)$(etcdir)/periodic/daily
 	$(INSTALL_EXE) pkgng/etckeeper_autocommit $(DESTDIR)$(etcdir)/periodic/daily/etckeeper_autocommit
+ifeq ($(DESTDIR),)
+	# Typically DESTDIR is used for packaging system.
+	# For those cases, this adjustment should be in post-install/deinstall scripts.
 	pkgng/adjust_make_conf install
+endif
 endif
 	-$(PYTHON) ./etckeeper-bzr/__init__.py install --root=$(DESTDIR) ${PYTHON_INSTALL_OPTS} || echo "** bzr support not installed"
 	echo "** installation successful"
