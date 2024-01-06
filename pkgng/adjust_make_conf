@@ -9,8 +9,8 @@ do_install()
         cat >> ${MAKE_CONF} << EOF
 # Begin etckeeper settings
 # Do not touch these lines
-PKG_DELETE=/usr/local/etc/etckeeper/pkg-delete-wrapper
-PKG_REGISTER=/usr/local/etc/etckeeper/pkg-register-wrapper
+PKG_DELETE=/usr/local/libexec/etckeeper/pkg-delete-wrapper
+PKG_REGISTER=/usr/local/libexec/etckeeper/pkg-register-wrapper
 # End etckeeper settings
 EOF
         echo " Done."

@@ -14,7 +14,7 @@ case "${daily_etckeeper_autocommit_enable:-YES}" in
 [Nn][Oo])
 	;;
 *)
-	/usr/local/etc/etckeeper/daily
+	/usr/local/libexec/etckeeper/daily
 	rc=$?
 	;;
 esac

@@ -6,6 +6,7 @@ include $(CONFFILE)
 DESTDIR?=
 prefix=/usr/local
 bindir=${prefix}/bin
+libexecdir=${prefix}/libexec
 etcdir=/usr/local/etc
 mandir=${prefix}/man
 vardir=/var
@@ -30,7 +31,12 @@ build: etckeeper.spec etckeeper.version
 install: etckeeper.version $(CMAN)
 	mkdir -p $(DESTDIR)$(etcdir)/etckeeper/ $(DESTDIR)$(vardir)/cache/etckeeper/
 	$(CP) *.d $(DESTDIR)$(etcdir)/etckeeper/
+ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
+	mkdir -p $(DESTDIR)$(libexecdir)/etckeeper/
+	$(INSTALL_EXE) daily $(DESTDIR)$(libexecdir)/etckeeper/daily
+else
 	$(INSTALL_EXE) daily $(DESTDIR)$(etcdir)/etckeeper/daily
+endif
 	$(INSTALL_DATA) $(CONFFILE) $(DESTDIR)$(etcdir)/etckeeper/etckeeper.conf
 	mkdir -p $(DESTDIR)$(bindir)
 	$(INSTALL_EXE) etckeeper $(DESTDIR)$(bindir)/etckeeper
@@ -74,8 +80,8 @@ ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),zypper)
 	$(INSTALL) zypper-etckeeper.py $(DESTDIR)$(prefix)/lib/zypp/plugins/commit/zypper-etckeeper.py
 endif
 ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
-	$(INSTALL_EXE) pkgng/pkg-delete-wrapper $(DESTDIR)$(etcdir)/etckeeper/pkg-delete-wrapper
-	$(INSTALL_EXE) pkgng/pkg-register-wrapper $(DESTDIR)$(etcdir)/etckeeper/pkg-register-wrapper
+	$(INSTALL_EXE) pkgng/pkg-delete-wrapper $(DESTDIR)$(libexecdir)/etckeeper/pkg-delete-wrapper
+	$(INSTALL_EXE) pkgng/pkg-register-wrapper $(DESTDIR)$(libexecdir)/etckeeper/pkg-register-wrapper
 	mkdir -p $(DESTDIR)$(etcdir)/periodic/daily
 	$(INSTALL_EXE) pkgng/etckeeper_autocommit $(DESTDIR)$(etcdir)/periodic/daily/etckeeper_autocommit
 ifeq ($(DESTDIR),)
