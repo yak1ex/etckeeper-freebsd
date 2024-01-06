@@ -20,6 +20,7 @@ The root Makefile expects GNU Make while the pkgng Makefile expects BSD Make.
 ```sh
 gmake install
 cd pkgng
+make
 make install
 ```
 
@@ -32,7 +33,7 @@ PLUGINS [ etckeeper ]
 ## Limitation
 
 - `/etc/pam.d/ftp` and `/etc/pam.d/ftpd` are hardlinks for fresh install of FreeBSD so warnings may be produced.
-- FreeBSD ports/pkg system uses `/usr/local/etc` for configuration files. You can use `etckeeper` manually for them but daily auto commit and ports/pkg hooks don't consider them as target currently.
+- FreeBSD ports/pkg system uses `/usr/local/etc` for configuration files. You can use `etckeeper` manually for them by using `-d` option, but daily auto commit and ports/pkg hooks don't consider them as target currently.
 
 ## License
 
