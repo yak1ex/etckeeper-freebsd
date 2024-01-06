@@ -8,10 +8,12 @@ This FreeBSD port includes some more support.
   - ports uses `pkg-static` as default so the plugin has no effect.
   - ports uses `pkg delete` but not `pkg install` so the pkgng install hook has no effect even though the plugin-enabled `pkg` is used.
 - Daily auto commit for FreeBSD periodic system
+- Multiple target directories, e.g. `/etc` and `/usr/local/etc`, for daily auto commit and hooks.
 - Prefix adjustment: installed under `/usr/local`
 - Install a compressed man page
 - `etckeeper.conf` has been adjusted for FreeBSD
 - `find` has no `printf` option in FreeBSD
+- Support scripts are placed into `/usr/local/libexec/etckeeper`. Note that scripts for commands are still under `/usr/local/etc/etckeeper/command.d`
 
 ## Install
 
@@ -30,10 +32,11 @@ To tweak `/etc/make.conf` for ports is done by `make install`, while to tweak `/
 PLUGINS [ etckeeper ]
 ```
 
+You can specify target directories for daily auto commit and triggered by hooks as `AUTOCOMMIT_DIRS` in `/usr/local/etc/etckeeper/etckeeper.conf`. Default is "/etc /usr/local/etc".
+
 ## Limitation
 
 - `/etc/pam.d/ftp` and `/etc/pam.d/ftpd` are hardlinks for fresh install of FreeBSD so warnings may be produced.
-- FreeBSD ports/pkg system uses `/usr/local/etc` for configuration files. You can use `etckeeper` manually for them by using `-d` option, but daily auto commit and ports/pkg hooks don't consider them as target currently.
 
 ## License
 
