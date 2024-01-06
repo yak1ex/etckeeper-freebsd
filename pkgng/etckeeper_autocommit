@@ -3,10 +3,26 @@
 # $FreeBSD$
 #
 
+# Read periodic configuration
+
 if [ -r /etc/defaults/periodic.conf ]; then
 	. /etc/defaults/periodic.conf
 	source_periodic_confs
 fi
+
+# Read etckeeper configuration
+
+if [ -z "$ETCKEEPER_CONF_DIR" ]; then
+	ETCKEEPER_CONF_DIR=/usr/local/etc/etckeeper
+fi
+
+conf="$ETCKEEPER_CONF_DIR/etckeeper.conf"
+
+if [ -e $conf ]; then
+	. $conf
+fi
+
+# main
 
 rc=0
 
@@ -14,8 +30,12 @@ case "${daily_etckeeper_autocommit_enable:-YES}" in
 [Nn][Oo])
 	;;
 *)
-	/usr/local/etc/etckeeper/daily
-	rc=$?
+	for dir in $AUTOCOMMIT_DIRS; do
+		env ETCKEEPER_DIR=$dir /usr/local/libexec/etckeeper/daily
+		if [ $? -ne 0 -a $rc -ne 0 ]; then
+			rc=$?
+		fi
+	done
 	;;
 esac
 
