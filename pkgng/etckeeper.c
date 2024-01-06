@@ -36,7 +36,8 @@
 #include <pkg.h>
 #define PLUGIN_NAME "etckeeper"
 /* TODO: make configuration param? */
-#define ETCKEEPER_PATH "/usr/local/bin/etckeeper"
+/* A wrapper script is used for multiple target dirs. */
+#define ETCKEEPER_PATH "/usr/local/libexec/etckeeper/etckeeper-dirs"
 
 extern char **environ;
 

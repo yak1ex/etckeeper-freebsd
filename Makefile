@@ -82,6 +82,7 @@ endif
 ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
 	$(INSTALL_EXE) pkgng/pkg-delete-wrapper $(DESTDIR)$(libexecdir)/etckeeper/pkg-delete-wrapper
 	$(INSTALL_EXE) pkgng/pkg-register-wrapper $(DESTDIR)$(libexecdir)/etckeeper/pkg-register-wrapper
+	$(INSTALL_EXE) pkgng/etckeeper-dirs $(DESTDIR)$(libexecdir)/etckeeper/etckeeper-dirs
 	mkdir -p $(DESTDIR)$(etcdir)/periodic/daily
 	$(INSTALL_EXE) pkgng/etckeeper_autocommit $(DESTDIR)$(etcdir)/periodic/daily/etckeeper_autocommit
 ifeq ($(DESTDIR),)
