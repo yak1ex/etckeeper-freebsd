@@ -19,12 +19,15 @@ INSTALL_DATA=${INSTALL} -m 0644
 PYTHON=python
 FAKEROOT := $(shell command -v fakeroot 2> /dev/null)
 TESTDIR := $(shell mktemp -u -d)
+ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
+CMAN=etckeeper.8.gz
+endif
 
 build: etckeeper.spec etckeeper.version
 	-$(PYTHON) ./etckeeper-bzr/__init__.py build || echo "** bzr support not built"
 	-$(PYTHON) ./etckeeper-dnf/etckeeper.py build || echo "** DNF support not built"
 
-install: etckeeper.version etckeeper.8.gz
+install: etckeeper.version $(CMAN)
 	mkdir -p $(DESTDIR)$(etcdir)/etckeeper/ $(DESTDIR)$(vardir)/cache/etckeeper/
 	$(CP) *.d $(DESTDIR)$(etcdir)/etckeeper/
 	$(INSTALL_EXE) daily $(DESTDIR)$(etcdir)/etckeeper/daily
@@ -37,9 +40,11 @@ install: etckeeper.version etckeeper.8.gz
 	$(INSTALL_DATA) bash_completion $(DESTDIR)$(bashcompletiondir)/etckeeper
 	mkdir -p $(DESTDIR)$(zshcompletiondir)
 	$(INSTALL_DATA) zsh_completion $(DESTDIR)$(zshcompletiondir)/_etckeeper
-#	mkdir -p $(DESTDIR)$(systemddir)
-#	$(INSTALL_DATA) systemd/etckeeper.service $(DESTDIR)$(systemddir)/etckeeper.service
-#	$(INSTALL_DATA) systemd/etckeeper.timer $(DESTDIR)$(systemddir)/etckeeper.timer
+ifneq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
+	mkdir -p $(DESTDIR)$(systemddir)
+	$(INSTALL_DATA) systemd/etckeeper.service $(DESTDIR)$(systemddir)/etckeeper.service
+	$(INSTALL_DATA) systemd/etckeeper.timer $(DESTDIR)$(systemddir)/etckeeper.timer
+endif
 ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),apt)
 	mkdir -p $(DESTDIR)$(etcdir)/apt/apt.conf.d
 	$(INSTALL_DATA) apt.conf $(DESTDIR)$(etcdir)/apt/apt.conf.d/05etckeeper
@@ -98,7 +103,9 @@ etckeeper.version:
 	sed -i~ "s/Version:.*/Version: $$(perl -e '$$_=<>;m/\((.*?)(-.*)?\)/;print $$1;' <CHANGELOG)\"/" etckeeper
 	rm -f etckeeper~
 
+ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pkgng)
 etckeeper.8.gz: etckeeper.8
 	gzip --keep --force $^
+endif
 
 .PHONY: etckeeper.spec etckeeper.version
