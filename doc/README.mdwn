@@ -9,6 +9,7 @@ This FreeBSD port includes some more support.
   - ports uses `pkg delete` but not `pkg install` so the pkgng install hook has no effect even though the plugin-enabled `pkg` is used.
 - Daily auto commit for FreeBSD periodic system
 - Multiple target directories, e.g. `/etc` and `/usr/local/etc`, for daily auto commit and hooks.
+- Recover package change extraction for commit log by hooks.
 - Prefix adjustment: installed under `/usr/local`
 - Install a compressed man page
 - `etckeeper.conf` has been adjusted for FreeBSD

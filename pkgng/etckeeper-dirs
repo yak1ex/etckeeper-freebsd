@@ -15,3 +15,8 @@ fi
 for dir in $AUTOCOMMIT_DIRS; do
     env ETCKEEPER_DIR=$dir /usr/local/bin/etckeeper $*
 done
+if [ "$1" = post-install ]; then
+	pl="/var/cache/etckeeper/packagelist"
+	rm -f $pl.pre-install $pl.fmt
+	rm -f $pl.found-pkgs $pl.found-packages
+fi
