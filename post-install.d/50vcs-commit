@@ -47,7 +47,7 @@ get_changed_packages () {
 		get_changes | sed 's/^/\/etc\//;s/\s*$//' | xargs -d '\n' pacman 2>/dev/null -Qo | rev | cut -d' ' -f1-2 | rev | cut -d' ' -f1
 	fi
 	if [ "$LOWLEVEL_PACKAGE_MANAGER" = pkgng ]; then
-		get_changes | sed 's/^/\'$ETCKEEPER_DIR'\//;s/\s*$//' | xargs -d '\n' pkg which --quiet | rev | cut -d'-' -f2- | rev
+		get_changes | sed 's,^,'$ETCKEEPER_DIR'/,;s/[[:space:]]*$//' | xargs -E '\n' pkg which --quiet | rev | cut -d'-' -f2- | rev
 	fi
 	if [ "$LOWLEVEL_PACKAGE_MANAGER" = xbps ]; then
 		get_changes | sed 's/^/\/etc\//;s/\s*$//' | xargs -d '\n' xbps-query -o | cut -d':' -f1
@@ -68,7 +68,12 @@ if etckeeper unclean; then
 			echo
 			get_changed_packages | sort | uniq > $pl.found-pkgs
 			if [ -s $pl.found-pkgs ]; then
-				sed -i 's/^/^[-+]/;s/$/ /' $pl.found-pkgs
+				if [ "$LOWLEVEL_PACKAGE_MANAGER" = pkgng ]; then
+					# FreeBSD 'sed' always expects an argument for '-i' option.
+					sed -i '' 's/^/^[-+]/;s/$/ /' $pl.found-pkgs
+				else
+					sed -i 's/^/^[-+]/;s/$/ /' $pl.found-pkgs
+				fi
 				etckeeper list-installed | diff -U0 $pl.pre-install - | tail -n+4 | grep -E '^[-+]' | grep -f $pl.found-pkgs > $pl.found-packages
 				if [ -s $pl.found-packages ]; then
 					echo "Packages with configuration changes:"
