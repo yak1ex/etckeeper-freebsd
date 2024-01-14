@@ -38,6 +38,8 @@ You can specify target directories for daily auto commit and triggered by hooks 
 ## Limitation
 
 - `/etc/pam.d/ftp` and `/etc/pam.d/ftpd` are hardlinks for fresh install of FreeBSD so warnings may be produced.
+- If you use `portmaster`, uninstall hooks have no effect during `portmaster` process. This is because `portmaster` itself explicitly calls `pkg-static delete`. On the other hand, install hooks work properly.
+
 
 ## License
 
