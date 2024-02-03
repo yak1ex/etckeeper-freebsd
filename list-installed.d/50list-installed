@@ -25,7 +25,9 @@ else
 	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = pacmatic ]; then
 		pacmatic -Q
 	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = pkgng ]; then
-		pkg info -E "*"
+		if pkg -N >/dev/null 2>&1; then # pkg may be removed when upgrading pkg itself
+			pkg info -E "*"
+		fi
 	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = apk ]; then
 		apk info -v | sort
 	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = xbps ]; then
