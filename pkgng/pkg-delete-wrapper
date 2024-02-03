@@ -1,4 +1,6 @@
 #!/bin/sh
+PKG_BIN=$1
+shift
 /usr/local/libexec/etckeeper/etckeeper-dirs pre-install
-$(make -f /usr/ports/Mk/bsd.port.mk -V PKG_BIN) delete -y $*
+$PKG_BIN delete -y $*
 /usr/local/libexec/etckeeper/etckeeper-dirs post-install
