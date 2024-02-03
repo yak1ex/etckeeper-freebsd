@@ -31,6 +31,8 @@ case "${daily_etckeeper_autocommit_enable:-YES}" in
 	;;
 *)
 	for dir in $AUTOCOMMIT_DIRS; do
+		echo
+		echo Daily autocommit by etckeeper for $dir:
 		env ETCKEEPER_DIR=$dir /usr/local/libexec/etckeeper/daily
 		if [ $? -ne 0 -a $rc -ne 0 ]; then
 			rc=$?
